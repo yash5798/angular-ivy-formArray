@@ -1,0 +1,69 @@
+<h3>Form Array Demonstration</h3>
+<form [formGroup]="filterForm">
+  <div formArrayName="filter">
+    <div>
+      <div>
+        <table>
+          <tbody>
+            <tr
+              *ngFor="let control of filter.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <td>
+                <input type="text" placeholder="key" formControlName="key" />
+                <label
+                  *ngIf="
+                    filter.controls[i].get('key').errors?.required &&
+                    filter.controls[i].get('key').touched
+                  "
+                >
+                  Key is required.
+                </label>
+              </td>
+              <td>
+                <select formControlName="condition">
+                  <option *ngFor="let c of conditionList" [ngValue]="c.value">
+                    {{ c.key }}
+                  </option>
+                </select>
+                <label
+                  *ngIf="
+                    filter.controls[i].get('condition').errors?.required &&
+                    filter.controls[i].get('condition').touched
+                  "
+                >
+                  Condition is required.
+                </label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  placeholder="value"
+                  formControlName="value"
+                />
+                <label
+                  *ngIf="
+                    filter.controls[i].get('value').errors?.required &&
+                    filter.controls[i].get('value').touched
+                  "
+                >
+                  Value is required.
+                </label>
+              </td>
+              <td>
+                <button (click)="remove(i)">-</button>
+              </td>
+            </tr>
+            <button (click)="add()">+</button>
+          </tbody>
+        </table>
+        <!-- <br /> -->
+      </div>
+    </div>
+  </div>
+  <br />
+
+  <button type="submit" [disabled]="!filterForm.valid" (click)="onSubmit()">
+    Submit
+  </button>
+</form>
